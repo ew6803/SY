@@ -24,7 +24,7 @@ int main() {
   cout << "Say which form you wish for it to be in \n";
   char* format = new char[100];
   cin.getline(format, 100);
-  if (strcmp(format, "postfix") == 0) {
+    if (strcmp(format, "postfix") == 0) {
     postfix(binary);
     cout << endl; 
   }
@@ -35,7 +35,7 @@ int main() {
   else if (strcmp(format, "prefix") == 0) {
     prefix(binary);
     cout << endl; 
-  }
+    }
   
 }
 
@@ -107,7 +107,7 @@ q* shunt(q* post, char* infix) {
     node* node2 = new node(para);
     if (stack1 == NULL) {
       stack1 = new stack(node2);
-      //stack1 -> peek(); 
+      stack1 -> peek(); 
     }
     else {
       stack1 -> push(node2); 
@@ -180,6 +180,7 @@ while (run == true) {
     post -> enqueue(enq);
   }
  }
+  
 return post;
 }
 
@@ -221,3 +222,4 @@ bool check (char after, char before) {
   }
   
 }
+

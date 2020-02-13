@@ -19,6 +19,9 @@ node* q::getQueueTl() {
 node* q::dequeue() {
   node* rtrn = qhead;
   if (qhead != NULL) {
+    qhead = qhead -> getNext();
+  }
+  if (qhead == NULL) {
     qtail = NULL;
   }
   return rtrn;

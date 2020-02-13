@@ -27,10 +27,10 @@ node* q::dequeue() {
 void q::enqueue(node* push) {
   if (qtail != NULL) {
     qtail->setNext(push);
-    qtail = ADD; 
+    qtail = push; 
   }
   else {
-    qhead = ADD;
-    qtail = ADD; 
+    qhead = push;
+    qtail = push; 
   }
 }

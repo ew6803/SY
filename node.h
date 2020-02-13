@@ -18,9 +18,9 @@ class node {
   void setLeft(node*);
   void setNext(node*);
   char* data;
-  node* next;
-  node* left;
-  node* right; 
+  node* next = NULL;
+  node* left = NULL; 
+  node* right = NULL; 
   
 
 

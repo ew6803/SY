@@ -5,79 +5,44 @@
 #include <cstring>
 #include <ctype.h>
 
-q* shunt(q*, char*);
-bool check(char, char);
-void postfix(node*);
-void prefix(node*);
-void infix(node*);
-node* buildtree(q* postfix);
-
 using namespace std;
 
-int main() {
-  cout << "Welcome, Equation? \n";
-  q* initial = new q();
-  char* input = new char [100];
-  cin.getline(input, 100);
-  initial = shunt(initial, input);
-  node* binary = buildtree(initial);
-  cout << "Say which form you wish for it to be in \n";
-  char* format = new char[100];
-  cin.getline(format, 100);
-    if (strcmp(format, "postfix") == 0) {
-    postfix(binary);
-    cout << endl; 
-  }
-  else if (strcmp(format, "infix") == 0) {
-    infix(binary);
-    cout << endl;
-  }
-  else if (strcmp(format, "prefix") == 0) {
-    prefix(binary);
-    cout << endl; 
+node* buildtree(q* input) {
+  stack* tree = new stack(NULL);
+  while(input -> getQueueHd() != 0) {
+    if(isdigit(*input->getQueueHd() -> getData())) {
+      node* fill = new node(input -> getQueueHd() -> getData());
+      tree -> push(fill);
+      input -> dequeue();
     }
+    else {
+      node* current = new node(input -> getQueueHd() -> getData());
+      current -> setRight(tree -> pop());
+      current -> setLeft(tree -> pop());
+      tree -> push(current);
+      input -> dequeue();
+    }
+  }
+  return tree -> peek();
+}
+
+bool check (char after, char before) {
+  if ((after == '+' || after == '-') && (before == '/' || before == '*' || before == '^')) {
+    return true;
+  }
+  else if ((after == '-' || after == '+') && (before == '-' || before == '+')) {
+    return false; 
+  }
+  else if ((after == '/' || after == '*') && (before == '/' || before == '*')) {
+    return false; 
+  }
+  else if ((after == '*' || after == '/') && before == '^') {
+    return true;
+  }
+  else {
+    return false;
+  }
   
-}
-
-void infix(node* btree) {
-  if ((*btree -> getData() == '+' || '-' || '*' || '/' || '^' )) {
-    cout << "(";
-  }
-  if (btree -> getLeft() != NULL) {
-    infix(btree->getLeft());
-  }
-  cout << btree -> getData() << "";
-  if (btree -> getRight() != NULL) {
-    infix(btree -> getRight()); 
-  }
-  if ((*btree -> getData() == '+' || '-' || '*' || '/' || '^')) {
-    cout << ")";
-  }
-}
-
-void prefix(node* btree) {
-  if (btree != NULL) 
-    cout << btree -> getData() << " ";
-  {
-    if (btree -> testLeft() == true) {
-      prefix(btree -> getLeft()); 
-    }
-    if (btree -> testRight() == true) {
-      prefix(btree -> getRight()); 
-    }
-  }
-}
-
-void postfix(node* btree) {
-  if (btree != NULL) {
-    if (btree -> getLeft() != NULL)  {
-      postfix(btree -> getLeft()); 
-    }
-    if (btree -> getRight() != NULL) {
-      postfix(btree -> getRight()); 
-    }
-    cout << btree -> getData() << " "; 
-  }
 }
 
 q* shunt(q* post, char* infix) {
@@ -170,6 +135,7 @@ q* shunt(q* post, char* infix) {
   }
  }
 
+
 bool run = true;
 while (run == true) {
   node* enq = stack1 -> pop();
@@ -184,42 +150,70 @@ while (run == true) {
 return post;
 }
 
-node* buildtree(q* input) {
-  stack* tree = new stack(NULL);
-  while(input -> getQueueHd() != 0) {
-    if(isdigit(*input->getQueueHd() -> getData())) {
-      node* fill = new node(input -> getQueueHd() -> getData());
-      tree -> push(fill);
-      input -> dequeue();
-    }
-    else {
-      node* current = new node(input -> getQueueHd() -> getData());
-      current -> setRight(tree -> pop());
-      current -> setLeft(tree -> pop());
-      tree -> push(current);
-      input -> dequeue();
-    }
+
+void infix(node* btree) {
+  if ((*btree -> getData() == '+' || '-' || '*' || '/' || '^' )) {
+    cout << "(";
   }
-  return tree -> peek();
+  if (btree -> getLeft() != NULL) {
+    infix(btree->getLeft());
+  }
+  cout << btree -> getData() << "";
+  if (btree -> getRight() != NULL) {
+    infix(btree -> getRight()); 
+  }
+  if ((*btree -> getData() == '+' || '-' || '*' || '/' || '^')) {
+    cout << ")";
+  }
 }
 
+void prefix(node* btree) {
+  if (btree != NULL) 
+    cout << btree -> getData() << " ";
+  {
+    if (btree -> testLeft() == true) {
+      prefix(btree -> getLeft()); 
+    }
+    if (btree -> testRight() == true) {
+      prefix(btree -> getRight()); 
+    }
+  }
+}
 
-bool check (char after, char before) {
-  if ((after == '+' || after == '-') && (before == '/' || before == '*' || before == '^')) {
-    return true;
+void postfix(node* btree) {
+  if (btree != NULL) {
+    if (btree -> getLeft() != NULL)  {
+      postfix(btree -> getLeft()); 
+    }
+    if (btree -> getRight() != NULL) {
+      postfix(btree -> getRight()); 
+    }
+    cout << btree -> getData() << " "; 
   }
-  else if ((after == '-' || after == '+') && (before == '-' || before == '+')) {
-    return false; 
+}
+
+int main() {
+  cout << "Welcome, Equation? \n";
+  q* initial = new q();
+  char* input = new char [100];
+  cin.getline(input, 100);
+  initial = shunt(initial, input);
+  node* binary = buildtree(initial);
+  cout << "Say which form you wish for it to be in \n";
+  char* format = new char[100];
+  cin.getline(format, 100);
+    if (strcmp(format, "postfix") == 0) {
+    postfix(binary);
+    cout << endl; 
   }
-  else if ((after == '/' || after == '*') && (before == '/' || before == '*')) {
-    return false; 
+  else if (strcmp(format, "infix") == 0) {
+    infix(binary);
+    cout << endl;
   }
-  else if ((after == '*' || after == '/') && before == '^') {
-    return true;
-  }
-  else {
-    return false;
-  }
+  else if (strcmp(format, "prefix") == 0) {
+    prefix(binary);
+    cout << endl; 
+    }
   
 }
 

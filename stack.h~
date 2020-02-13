@@ -5,4 +5,5 @@ class stack {
   node* pop();
   node* peek();
   void push(node*);
+  node* head; 
 };

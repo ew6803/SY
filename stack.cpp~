@@ -3,8 +3,8 @@
 
 using namespace std;
 
-stack::stack(node* new)  {
-  head = new; 
+stack::stack(node* newHead)  {
+  head = newHead; 
 }
 
 node* stack::peek() {

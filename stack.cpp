@@ -7,9 +7,18 @@ stack::stack(node* newHead)  {
   head = newHead; 
 }
 
-node* stack::peek() {
-  return head; 
-} 
+void stack::push(node* add) {
+  if (head != NULL) {
+    node* current = head;
+    while (current -> getNext() != NULL) {
+      current = current -> getNext();
+    }
+    current -> setNext(add);
+  }
+  else {
+    head = add;
+  }
+}
 
 node* stack::pop() {
   node* current = head;
@@ -31,15 +40,7 @@ node* stack::pop() {
 
 }
 
-void stack::push(node* add) {
-  if (head != NULL) {
-    node* current = head;
-    while (current -> getNext() != NULL) {
-      current = current -> getNext();
-    }
-    current -> setNext(add);
-  }
-  else {
-    head = add;
-  }
-}
+node* stack::peek() {
+  return head; 
+} 
+

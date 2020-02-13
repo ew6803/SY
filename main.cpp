@@ -3,7 +3,7 @@
 #include "stack.h"
 #include "q.h"
 #include <cstring>
-#include <ctype.h>
+
 
 using namespace std;
 
@@ -27,17 +27,17 @@ node* buildtree(q* input) {
 }
 
 bool check (char after, char before) {
-  if ((after == '+' || after == '-') && (before == '/' || before == '*' || before == '^')) {
+  if ((after == '+' || after == '-') && (before == '*' || before == '/' || before == '^')) {
     return true;
-  }
-  else if ((after == '-' || after == '+') && (before == '-' || before == '+')) {
-    return false; 
-  }
-  else if ((after == '/' || after == '*') && (before == '/' || before == '*')) {
-    return false; 
   }
   else if ((after == '*' || after == '/') && before == '^') {
-    return true;
+    return true; 
+  }
+  else if ((after == '+' || after == '-') && (before == '+' || before == '-')) {
+    return false; 
+  }
+  else if ((after == '*' || after == '/') && (before == '*' || before == '/')) {
+    return false; 
   }
   else {
     return false;
@@ -50,19 +50,12 @@ q* shunt(q* post, char* infix) {
   for (int i = 0; i < strlen(infix); i++) {
     if (isdigit(infix[i]) == true) {
     char* data = new char[100];
-    bool run = true;
     int init = i;
     data[0] = infix[i];
-    while (run == true) {
       if(isdigit(infix[i+1])) {
 	i = i+1;
 	data[i - init] = infix[i]; 
       }
-      else {
-	run = false; 
-      }
-    }
-    data[i+1] = '\0';
     node* nNode = new node(data);
     post -> enqueue(nNode); 
   }
@@ -72,10 +65,9 @@ q* shunt(q* post, char* infix) {
     node* node2 = new node(para);
     if (stack1 == NULL) {
       stack1 = new stack(node2);
-      stack1 -> peek(); 
-    }
+      }
     else {
-      stack1 -> push(node2); 
+    stack1 -> push(node2);
     }
   }
   else if (infix[i] == ')') {
@@ -86,9 +78,9 @@ q* shunt(q* post, char* infix) {
 	post -> enqueue(pop);	
       }
       else {
-	remove = true; 
+      remove = true; 
       }
-    }
+      }
   }
   else {
     if (stack1 == NULL) {
@@ -96,8 +88,8 @@ q* shunt(q* post, char* infix) {
       data[0] = infix[i];
       node* nNode = new node(data);
       stack1 = new stack(nNode); 
-    }
-    else {
+      } 
+    else { 
       char* data = new char[2];
       data[0] = infix[i];
       node* nNode = new node(data);
@@ -133,19 +125,19 @@ q* shunt(q* post, char* infix) {
       stack1 -> push(nNode); 
     }
   }
- }
+  }
 
 
-bool run = true;
-while (run == true) {
-  node* enq = stack1 -> pop();
+  bool run = true;
+  while (run == true) {
+    node* enq = stack1 -> pop();
   if (enq == NULL) {
-    run = false;
+  run = false;
   }
   else {
-    post -> enqueue(enq);
+  post -> enqueue(enq);
+    }
   }
- }
   
 return post;
 }

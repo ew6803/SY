@@ -1,3 +1,4 @@
+//stack class file
 #include "stack.h"
 #include <iostream>
 

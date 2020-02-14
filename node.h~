@@ -21,8 +21,5 @@ class node {
   node* next = NULL;
   node* left = NULL; 
   node* right = NULL; 
-  
-
-
 };
 #endif 

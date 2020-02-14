@@ -1,9 +1,10 @@
 #include "node.h"
 class stack {
  public:
-  stack(node*);
+  void push(node*);
   node* pop();
   node* peek();
-  void push(node*);
-  node* head; 
+  stack(node*); 
+  node* head;
+  node* tail;
 };

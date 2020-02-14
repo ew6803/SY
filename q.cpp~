@@ -9,12 +9,17 @@ q::q() {
 
 }
 
-node* q::getQueueHd() {
-  return qhead;
+void q::enqueue(node* push) {
+  if (qtail != NULL) {
+    qtail->setNext(push);
+    qtail = push; 
+  }
+  else {
+    qhead = push;
+    qtail = push; 
+  }
 }
-node* q::getQueueTl() {
-  return qtail; 
-}
+
 
 node* q::dequeue() {
   node* rtrn = qhead;
@@ -27,13 +32,9 @@ node* q::dequeue() {
   return rtrn;
 }
 
-void q::enqueue(node* push) {
-  if (qtail != NULL) {
-    qtail->setNext(push);
-    qtail = push; 
-  }
-  else {
-    qhead = push;
-    qtail = push; 
-  }
+node* q::getQueueHd() {
+  return qhead;
+}
+node* q::getQueueTl() {
+  return qtail; 
 }

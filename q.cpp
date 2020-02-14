@@ -1,3 +1,4 @@
+//queue class file
 #include "q.h"
 #include <iostream>
 

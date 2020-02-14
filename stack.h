@@ -1,3 +1,4 @@
+//stack class header file
 #include "node.h"
 class stack {
  public:

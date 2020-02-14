@@ -1,3 +1,4 @@
+//queue class header file
 #include "node.h"
 
 class q {

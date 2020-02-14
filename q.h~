@@ -7,6 +7,6 @@ class q {
    node* dequeue();
    node* getQueueHd();
    node* getQueueTl();
-  node* qhead;
-  node* qtail; 
+   node* qhead;
+   node* qtail; 
 };

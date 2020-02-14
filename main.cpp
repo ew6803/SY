@@ -50,6 +50,7 @@ bool presedence(char after, char before) {
 }
 //Shunting Yard Algorithim, takes the infix equation and converts to postfix. 
 q* shuntingyard(q* post, char* infix) {
+  bool running = true; 
   stack* stack1 = NULL;
   for (int i = 0; i < strlen(infix); i++) {
     if (isdigit(infix[i]) == true) {
@@ -71,34 +72,19 @@ q* shuntingyard(q* post, char* infix) {
       data[0] = infix[i];
       node* nNode = new node(data);
       node* compare = stack1 -> pop();
-      bool tt = true;
-      int count = 0;
       if (compare != NULL) {
-	tt = presedence(data[0], compare -> getData()[0]);
-	if (tt == true) {
+	if (presedence(data[0], compare -> getData()[0]) == true) {
 	  post -> enqueue(compare);
-	  count++;
-	  bool run = true;
-
-	  while (run == true) {
-	    count++;
 	    node* qq = stack1 -> pop();
-	    if(qq == NULL) {
-	      run = false;
-	    }
-	    else if (presedence(data[0], qq -> getData()[0]) == false) {
+	    if (presedence(data[0], qq -> getData()[0]) == false) {
 	      stack1 -> push(qq);
-	      run = false;
 	    }
 	    else {
 	      post -> enqueue(qq); 
 	    }
-	  }
 	}
       }
-      if (count == 0) {
-	stack1 -> push(compare);
-	}
+      stack1 -> push(compare);
       stack1 -> push(nNode); 
     }
   }
@@ -114,32 +100,24 @@ q* shuntingyard(q* post, char* infix) {
     }
   }
   else if (infix[i] == ')') {
-    bool remove = false;
-    while (remove == false) {
       node* pop = stack1 -> pop();
       if (pop -> getData()[0] != '(') {
 	post -> enqueue(pop);	
       }
-      else {
-      remove = true; 
-      }
-      }
+    pop = stack1 -> pop(); 
   }
     
-}
-
-  bool run = true;
-  while (run == true) {
+  }
+  while (running == true) {
     node* enq = stack1 -> pop();
-  if (enq == NULL) {
-  run = false;
+  if (enq != NULL) {
+    post -> enqueue(enq);
   }
   else {
-  post -> enqueue(enq);
+     running = false; 
     }
-  }
-  
-return post;
+  }  
+  return post;
 }
 
 //Takes binary tree and outputs in infix notation
@@ -188,7 +166,7 @@ void postfix(node* btree) {
 
 //Main, UI and Function Caller
 int main() {
-  cout << "Welcome, Equation? \n";
+  cout << "Welcome, Equation? Do not use Spaces\n";
   q* initial = new q();
   char* input = new char [100];
   cin.getline(input, 100);
